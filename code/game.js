@@ -200,23 +200,21 @@ Player.prototype.moveX = function(step, level, keys) {
   var motion = new Vector(this.speed.x * step, 0);
   var newPos = this.pos.plus(motion);
   var obstacle = level.obstacleAt(newPos, this.size);
-  lava = new Vect
+  lava = 'lava';
   if (obstacle != "wall") 
 	this.pos = newPos;
 
 if (obstacle) {
-	if (keys.left && this.speed.x > 0)
-		this.speed.x = -jumpSpeed;
-		else if (keys.right && this.speed.x > 0)
-			this.speed.x = -jumpSpeed;
-	else
-		this.speed.x = 0;
-  } else {
-  this.pos = newPos;
-  }
-  if (obstacle){
 	if (keys.up && this.speed.x > 0)
 		this.speed.x = -jumpSpeed;
+		else if (keys.left && this.speed.x > 0)
+			this.speed.x = -jumpSpeed;
+		else if (keys.right && this.speed.x > 0)
+			this.speed.x = -jumpSpeed;
+			else if (level.lava)
+				this.speed.x = -jumpSpeed;
+					else if ()
+						this.speed.x = -jumpSpeed;
 	else
 		this.speed.x = 0;
   } else {
@@ -233,9 +231,18 @@ Player.prototype.moveY = function(step, level, keys) {
   var motion = new Vector(0, this.speed.y * step);
   var newPos = this.pos.plus(motion);
   var obstacle = level.obstacleAt(newPos, this.size);
+  lava = 'lava';
   if (obstacle) {
 	if (keys.up && this.speed.y > 0)
 		this.speed.y = -jumpSpeed;
+	else if (keys.left && this.speed.x > 0)
+			this.speed.x = -jumpSpeed;
+		else if (keys.right && this.speed.x > 0)
+			this.speed.x = -jumpSpeed;
+			else if ()
+			this.speed.x = -jumpSpeed;
+				else if ()
+					this.speed.x = -jumpSpeed;
 	else
 		this.speed.y = 0;
   } else {
