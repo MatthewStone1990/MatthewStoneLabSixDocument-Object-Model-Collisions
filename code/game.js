@@ -149,7 +149,32 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
   else if (center.y > bottom - margin)
     this.wrap.scrollTop = center.y + margin - height;
 };
-
+//.ceil mean the highest integer value.
+Level.prototype.obstacleAt = function(pos, size) {
+	var xStart = Math.floor(pos.x);
+	var xEnd = Math.ceil(pos.x + size.x);
+	var yStart = Math.floor(pos.y);
+	var yEnd = (Math.ceil(pos.y + size.y));
+	
+//Everything outside game level is wall
+//If we are below our X coordinate and over the width of the screen
+//If the player managed to set themselves on a trajectory that should go off screen.
+//We are going to consider that a wall!
+//Basically, confined to the spot you create in your platform world! 
+	if (xStart < 0 || xEnd > this.width || yStart < 0 || yEnd > this.height)
+		return 'wall';
+	
+//Integer value for the box the user is hitting.
+//Go through every box from our lowest value y to our ending value for all those values of y and x.
+	for (var y = yStart; y < yEnd; y++) {
+		for(var x = xStart; x < xEnd; x++) {
+			var fieldType = this.grid[y][x];
+			if (fieldType) {
+				return fieldType;
+			}
+		}
+}
+};
 
 // Update simulation each step based on keys & step size
 Level.prototype.animate = function(step, keys) {
@@ -172,25 +197,50 @@ Player.prototype.moveX = function(step, level, keys) {
   this.speed.x = 0;
   if (keys.left) this.speed.x -= playerXSpeed;
   if (keys.right) this.speed.x += playerXSpeed;
-
   var motion = new Vector(this.speed.x * step, 0);
   var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  lava = new Vect
+  if (obstacle != "wall") 
+	this.pos = newPos;
+
+if (obstacle) {
+	if (keys.left && this.speed.x > 0)
+		this.speed.x = -jumpSpeed;
+		else if (keys.right && this.speed.x > 0)
+			this.speed.x = -jumpSpeed;
+	else
+		this.speed.x = 0;
+  } else {
   this.pos = newPos;
+  }
+  if (obstacle){
+	if (keys.up && this.speed.x > 0)
+		this.speed.x = -jumpSpeed;
+	else
+		this.speed.x = 0;
+  } else {
+  this.pos = newPos;
+  }
 };
 
-var gravity = 30;
-var jumpSpeed = 17;
+var gravity = 29;
+var jumpSpeed = 15;
 var playerYSpeed = 7;
 
 Player.prototype.moveY = function(step, level, keys) {
-  this.speed.y = 0;
-  if (keys.up) this.speed.y -= playerYSpeed;
-  if (keys.down) this.speed.y += playerYSpeed;
+  this.speed.y += step * gravity;
   var motion = new Vector(0, this.speed.y * step);
   var newPos = this.pos.plus(motion);
-
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) {
+	if (keys.up && this.speed.y > 0)
+		this.speed.y = -jumpSpeed;
+	else
+		this.speed.y = 0;
+  } else {
   this.pos = newPos;
-
+  }
 };
 
 Player.prototype.act = function(step, level, keys) {
