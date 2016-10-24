@@ -211,9 +211,9 @@ if (obstacle) {
 			this.speed.x = -jumpSpeed;
 		else if (keys.right && this.speed.x > 0)
 			this.speed.x = -jumpSpeed;
-			else if (level.lava)
+			else if (lava.touch && this.speed.x > 0)
 				this.speed.x = -jumpSpeed;
-					else if ()
+					else if (lava.touch && this.speed.x > 0)
 						this.speed.x = -jumpSpeed;
 	else
 		this.speed.x = 0;
@@ -239,10 +239,10 @@ Player.prototype.moveY = function(step, level, keys) {
 			this.speed.x = -jumpSpeed;
 		else if (keys.right && this.speed.x > 0)
 			this.speed.x = -jumpSpeed;
-			else if ()
-			this.speed.x = -jumpSpeed;
-				else if ()
-					this.speed.x = -jumpSpeed;
+			else if (lava.Touch && this.speed.x > 0)
+				this.speed.x = -jumpSpeed;
+					else if (lava.Touch && this.speed.x > 0)
+						this.speed.x = -jumpSpeed;
 	else
 		this.speed.y = 0;
   } else {
